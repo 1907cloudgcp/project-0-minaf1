@@ -1,0 +1,39 @@
+{
+  "accounts": [
+    {
+      "username": "jojo",
+      "password": "giorno",
+      "amount": 31.0
+    },
+    {
+      "username": "jack",
+      "password": "black",
+      "amount": 110.24
+    },
+    {
+      "username": "john",
+      "password": "smith",
+      "amount": 50.0
+    },
+    {
+      "username": "barack",
+      "password": "obama",
+      "amount": 500.0
+    },
+    {
+      "username": "naruto",
+      "password": "uzumaki",
+      "amount": 479.0
+    },
+    {
+      "username": "tak",
+      "password": "juju",
+      "amount": 75.25
+    },
+    {
+      "username": "bugs",
+      "password": "bunny",
+      "amount": 20.0
+    }
+  ]
+}
