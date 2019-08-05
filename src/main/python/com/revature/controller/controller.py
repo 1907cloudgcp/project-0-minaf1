@@ -22,7 +22,7 @@ def action(username, password):
 			serv.getAllTransactions(username)
 		else:
 			if input('Are you sure you want to logout? Y / N. ').upper() == 'Y':
-				serv.logout()
+				serv.logout(username)
 			break
 	
 hasAccount = input('Do you have an account with us. Y / N. ')
@@ -39,7 +39,7 @@ if hasAccount.upper() == 'Y':
 			print('We cannot find an account with the username/password you have provided.')
 			logger.critical('Attempted login failure:'+username+','+password)
 else:
-	wantsToRegister = input('Would you like to register? Y / N. ')
+	wantsToRegister = input('Would you like to register? Y / N.')
 	if wantsToRegister.upper() == 'Y':
 		serv.register()
 	
