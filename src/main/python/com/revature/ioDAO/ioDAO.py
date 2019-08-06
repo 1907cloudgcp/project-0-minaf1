@@ -1,15 +1,17 @@
 import logging
 import json
-
+import os.path
 
 def getLogger():
-	logger = logging.getLogger('logging') #filename: C:/Users/minaf/Desktop/Revature/projects/project0/version2/
-	logging.basicConfig(level=logging.DEBUG, filename="transactions.log")
+	logger = logging.getLogger('logging')
+	logging.basicConfig(level=logging.DEBUG, filename="resources/transactions.log")
 	return logger
 	
 def getAccountData():
 	print('getting file handle')
-	with open('accounts.json') as f:
+	my_path = os.path.abspath(os.path.dirname(__file__))
+	path = os.path.join(my_path, "../../../../resources/accounts.json")
+	with open(path) as f:
 		data = json.load(f)
 	return data
 	
@@ -25,7 +27,7 @@ def getTransactionList(username):
 	transList = []
 	with open('transactions.log') as f:
 		for trans in f:
-			index = trans.find(username+':')
+			index = trans.find(username + ':')
 			if index != -1:
 				transList.append(trans[index:])
 	return transList

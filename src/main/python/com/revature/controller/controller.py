@@ -1,5 +1,8 @@
-import service as serv
-import ioDAO as dao
+from service import service
+from ioDAO import ioDAO
+
+serv = service
+dao = ioDAO
 
 def action(username, password):
 	while True:
@@ -11,18 +14,18 @@ def action(username, password):
 		
 		choice = int(input('Make your choice: '))
 		if choice == 1:
-			print('Your balance is: $ ', serv.balance(username, password), '\n')
+			print('Your balance is: $ ', serv.balance(), '\n')
 		elif choice == 2:
 			amount = input('How much do you want to deposit:')
-			serv.deposit(username, password, amount)
+			serv.deposit(amount)
 		elif choice == 3:
 			amount = input('How much do you want to withdraw:')
-			serv.withdraw(username, password, amount)
+			serv.withdraw(amount)
 		elif choice == 4:
-			serv.getAllTransactions(username)
+			serv.getAllTransactions()
 		else:
 			if input('Are you sure you want to logout? Y / N. ').upper() == 'Y':
-				serv.logout(username)
+				serv.logout()
 			break
 	
 hasAccount = input('Do you have an account with us. Y / N. ')

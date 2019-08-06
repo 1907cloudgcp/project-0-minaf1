@@ -1,14 +1,42 @@
+from ioDAO import ioDAO
+from model import Account
+from error import error
 import json
-import ioDAO as dao
 import datetime
-from error import LoginError
-from error import WithdrawTooMuchError
 
+dao = ioDAO
+LoginError = error.LoginError
+WithdrawTooMuchError = error.WithdrawTooMuchError
 logger = dao.getLogger()
-#account = Account()
+global account
+
+def login(username, password):
+	print('logging in...')
+	
+	data = dao.getAccountData()
+	for acc in data['accounts']:
+		if acc['username'] == username and acc['password'] == password:
+			print('successfully logged in')
+			global account
+			account = Account.Account(str(username), str(password), float(acc['amount']))
+			print(username, '\'s balance is:', acc['amount'])
+			logger.info(f'{getCurrentTime()}:{username}: has successfully logged in.')
+			return True	
+	try:
+		raise LoginError
+	except LoginError:
+		print('Cannot login with this username/password pair.')
+		logger.error(f'failed login using username:password pair.{username}:{password}')
+	finally:
+		return False
 
 def saveAccounts(data):
-	print('saving back to file')
+	print('Saving back to file')
+	
+	for acc in data['accounts']:
+		if acc['username'] == account.getUsername():
+			acc['amount'] = account.getAmount()
+	
 	with open('accounts.json', 'w') as f:
 		json.dump(data, f, indent=2)
 	
@@ -31,69 +59,44 @@ def register():
 	logger.info(f'{getCurrentTime()}:{username}: has registered with our bank.')
 	saveAccounts(data)
 
-def balance(username, password):
-	print('getting', username, '\'s  balance')
-	_, acc = dao.checkAccountExists(username, password)
-	if acc:
-		logger.info(f'{getCurrentTime()}:{username}: has asked for their balance.')
-		return round(float(acc['amount']), 2)
+def balance():
+	print('getting', account.getUsername(), '\'s  balance')
+	if account != None:
+		logger.info(f'{getCurrentTime()}:{account.getUsername()}: has asked for their balance.')
+		return round(float(account.getAmount()), 2)
 		
-def deposit(username, password, amount):
+def deposit(amount):
 	print('making a deposit')
-	data, acc = dao.checkAccountExists(username, password)
-	if acc != False:
-		acc['amount'] = acc['amount'] + float(amount)
-		logger.info(f'{getCurrentTime()}:{username}: has made a deposit of {amount}.')
-		print('You have deposited: $', round(float(amount), 2))
-				
-	saveAccounts(data)
+	if account != None:
+		logger.info(f'{getCurrentTime()}:{account.getUsername()}: has made a deposit of {amount}.')
+		account.setAmount(account.getAmount() + float(amount))
 	
-def withdraw(username, password, amount):
+def withdraw(amount):
 	print('making a withdrawal')
-	data, acc = dao.checkAccountExists(username, password)
-	if acc:
-		if acc['amount'] < float(amount):
-			print('You can\'t withdraw more than you have in the account')
-			print('Please try again with a reasonable amount')
-			logger.error(f'{getCurrentTime()}:{username}: has attempted a withdrawal of more money than amount in account.{amount}')
-			try:
-				raise WithdrawTooMuchError
-			except ArithmeticError:
-				return False
+	amount = float(amount)
+	
+	if account != None:
+		if account.amount > amount:
+			account.setAmount(account.getAmount() - amount)
+			logger.info(f'{getCurrentTime()}:{account.getUsername()}: has made a withdrawel of $ {amount}.')
 		else:
-			acc['amount'] = acc['amount'] - float(amount)
-			logger.info(f'{getCurrentTime()}:{username}: has made a withdrawel of $ {amount}.')
-			print(f'You have withdrawn: $ {round(float(amount), 2)}')
-	saveAccounts(data)
-	return True
-
-def getAllTransactions(username):
+			logger.error(f'{getCurrentTime()}:{account.getUsername()}: has attempted a withdrawal of more money than amount in account.{amount}')
+			print('withdraw failed. either accounts None or its higher than amount')
+	return False
+	
+def getAllTransactions():
+	username = account.getUsername()
 	print('Retreiving all transactions for', username)
 	transList = dao.getTransactionList(username)
 	for trans in transList:
 		print(trans, end='')
-		
-def login(username, password):
-	print('logging in...')	
-	if dao.login(username, password):
-		print('successfully logged in')
-		logger.info(f'{getCurrentTime()}:{username}: has successfully logged in.')
-		return True
-	else:
-		try:
-			raise LoginError
-		except LoginError:
-			print('Cannot login with this username/password pair.')
-			logger.error(f'failed login using username:password pair.{username}:{password}')		
-		finally:
-			return False
-		
-def logout(username):
+
+def logout():
 	print('logging out')
 	print('Have a nice day')
-	logger.info(f'{getCurrentTime()}:{username} has successfully logged out.')
+	logger.info(f'{getCurrentTime()}:{account.getUsername()} has successfully logged out.')
+	data = dao.getAccountData()
+	saveAccounts(data)
 	
 def getCurrentTime():
 	return datetime.datetime.now().strftime('%y-%m-%dT%I:%M:%S')
-
-	
