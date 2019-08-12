@@ -1,55 +1,67 @@
-#Testing
-import service
-import unittest
-from error import LoginError
-from error import WithdrawTooMuchError
+# Testing
+import sys
+import os
+# lib_path = os.path.abspath(os.path.join(__file__, '..', 'service'))
+# sys.path.append(lib_path)
+# sys.path.insert(0, "src/main/python/com/revature")
+# import revature
+# from service.service import Service
 
-TESTS_EXECUTED = 0
-TESTS_PASSED = 0
+# global TESTS_EXECUTED, TESTS_PASSED
+# TESTS_EXECUTED = 0
+# TESTS_PASSED = 0
 
-def Test(to_decorate_function):
-	def test_function(test_value):
-		global TESTS_EXECUTED, TESTS_PASSED
-		TESTS_EXECUTED += 1
-		to_decorate_function(test_value)
-		TESTS_PASSED += 1
-	return test_function
 
-def LoginTest(to_decorate_function):
-	def test_function(test_value1, test_value2):
-		global TESTS_EXECUTED, TESTS_PASSED
-		TESTS_EXECUTED += 1
-		to_decorate_function(test_value1, test_value2)
-		TESTS_PASSED += 1
-	return test_function
 
-@LoginTest
-def testLoginSuccessful(username, password):
-	assert service.login(username, password), 'Login Failed. Please try a different username/password.'
 
-@LoginTest	
-def testLoginFailure(username, password):
-	assert service.login(username, password) == False
+class Tests:
+    # serv = Service()
+    TESTS_EXECUTED = 0
+    TESTS_PASSED = 0
+    # serv = None
 
-@Test
-def testWithdrawalSuccess(amount):
-	assert service.withdraw('john', 'smith', amount), 'You cannot take out more money than you have on the account.'
-	
-@Test
-def testWithdrawalFailure(amount):
-	assert service.withdraw('john', 'smith', amount) == False, 'You cannot take out more money than you have on the account.'
-	
-def main():
-	try:
-		print(testLoginSuccessful('john', 'smith'), end='\n\n')
-		print(testWithdrawalSuccess(20.0), end='\n\n')
-		
-		print(testWithdrawalFailure(20000.0), end='\n\n')
-		print(testLoginFailure('john', 'smithhh'))
-	except Exception as e:
-		print(e)
-	finally:
-		print('{} tests passed out of {} executed.'.format(str(TESTS_PASSED), str(TESTS_EXECUTED)))
-	
-if __name__ == '__main__':
-	main()
+
+    def __init__(self, service):
+        self.serv = service
+
+    def Test(self, to_decorate_function):
+        def test_function(test_value):
+            global TESTS_EXECUTED, TESTS_PASSED
+            TESTS_EXECUTED += 1
+            to_decorate_function(test_value)
+            TESTS_PASSED += 1
+
+        return test_function
+
+    def LoginTest(self, to_decorate_function):
+        def test_function2(test_value1, test_value2):
+            global TESTS_EXECUTED, TESTS_PASSED
+            TESTS_EXECUTED += 1
+            to_decorate_function(test_value1, test_value2)
+            TESTS_PASSED += 1
+
+        return test_function2
+
+    @LoginTest
+    def testLoginSuccessful(self, username, password):
+        # myLog = logging.setLogger(__name__)
+        assert self.serv.login(username, password) is True, 'Login Failed. Please try a different username/password.'
+        # myLog.info('successful logged in')
+
+
+    @LoginTest
+    def testLoginFailure(self, username, password):
+        # myLog = logging.setLogger(__name__)
+        assert self.serv.login(username, password) == False, 'Login Failed. Please try a different username/password.'
+
+    @Test
+    def testWithdrawalSuccess(self, amount):
+        # myLog = logging.setLogger(__name__)
+        assert self.serv.withdraw(amount), 'You cannot take out more money than you have on the account.'
+        # myLog.info('blabla')
+
+
+    @Test
+    def testWithdrawalFailure(self, amount):
+        # myLog = logging.setLogger(__name__)
+        assert self.serv.withdraw(amount) == False, 'You cannot take out more money than you have on the account.'

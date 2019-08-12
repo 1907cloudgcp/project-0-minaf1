@@ -13,7 +13,7 @@
     {
       "username": "john",
       "password": "smith",
-      "amount": 270.0
+      "amount": 400.5
     },
     {
       "username": "barack",
@@ -23,7 +23,7 @@
     {
       "username": "naruto",
       "password": "uzumaki",
-      "amount": 479.0
+      "amount": 500.0
     },
     {
       "username": "tak",
@@ -34,6 +34,26 @@
       "username": "bugs",
       "password": "bunny",
       "amount": 20.0
+    },
+    {
+      "username": "courage",
+      "password": "dog",
+      "amount": 10.0
+    },
+    {
+      "username": "eustace",
+      "password": "kid the mighty",
+      "amount": 0.0
+    },
+    {
+      "username": "tanjiro",
+      "password": "kamado",
+      "amount": 100.21
+    },
+    {
+      "username": "micky",
+      "password": "mouse",
+      "amount": 100.00333333333334
     }
   ]
 }
