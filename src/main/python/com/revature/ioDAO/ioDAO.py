@@ -2,7 +2,7 @@ import logging
 import json
 import os.path
 from pathlib import Path
-
+from model import Account
 
 # def setLogger():
 #     logger = logging.getLogger('logging')
@@ -32,8 +32,6 @@ def checkAccountExists(username, password):
     print('returning False from checkAccountExists:')
 
 
-# return False
-
 def getTransactionList(username):
     transList = []
     with open('resources/transactions.log') as f:
@@ -50,5 +48,4 @@ def login(username, password):
     for acc in data['accounts']:
         if acc['username'] == username and acc['password'] == password:
             return True
-    else:
-        return False
+    return False

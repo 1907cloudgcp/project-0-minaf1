@@ -1,59 +1,9 @@
 {
   "accounts": [
     {
-      "username": "jojo",
-      "password": "giorno",
-      "amount": 31.0
-    },
-    {
-      "username": "jack",
-      "password": "black",
-      "amount": 110.24
-    },
-    {
       "username": "john",
       "password": "smith",
-      "amount": 400.5
-    },
-    {
-      "username": "barack",
-      "password": "obama",
-      "amount": 500.0
-    },
-    {
-      "username": "naruto",
-      "password": "uzumaki",
-      "amount": 500.0
-    },
-    {
-      "username": "tak",
-      "password": "juju",
-      "amount": 75.25
-    },
-    {
-      "username": "bugs",
-      "password": "bunny",
-      "amount": 20.0
-    },
-    {
-      "username": "courage",
-      "password": "dog",
-      "amount": 10.0
-    },
-    {
-      "username": "eustace",
-      "password": "kid the mighty",
-      "amount": 0.0
-    },
-    {
-      "username": "tanjiro",
-      "password": "kamado",
-      "amount": 100.21
-    },
-    {
-      "username": "micky",
-      "password": "mouse",
-      "amount": 100.00333333333334
+      "amount": 400.0
     }
   ]
 }

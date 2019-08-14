@@ -1,9 +1,10 @@
 from service import service
 from ioDAO import ioDAO
 
+
 class Controller:
-    dao = ioDAO
     service = service.Service()
+
     def __init__(self):
         pass
 
@@ -12,7 +13,7 @@ class Controller:
             print('1. Get balance')
             print('2. Deposit')
             print('3. Withdraw')
-            print('4. View all tranactions')
+            print('4. View all transactions')
             print('5. Log out')
 
             choice = int(input('Make your choice: '))
@@ -27,16 +28,16 @@ class Controller:
             elif choice == 4:
                 self.service.getAllTransactions()
             else:
-                if input('Are you sure you want to logout? Y / N. ').upper() == 'Y':
+                if input('Are you sure you want to logout? Yes / No. ').upper() == 'YES':
                     self.service.logout()
                 break
 
     def start(self):
-        hasAccount = input('Do you have an account with us. Y / N. ')
+        hasAccount = input('Do you have an account with us. Yes / No. ')
 
-        if hasAccount.upper() == 'Y':
-            login = input('Would you like to log in? Y / N. ')
-            if login.upper() == 'Y':
+        if hasAccount.upper() == 'YES':
+            login = input('Would you like to log in? Yes / No. ')
+            if login.upper() == 'YES':
                 username = input('Username: ')
                 password = input('Password: ')
                 if self.service.login(username, password):
@@ -45,6 +46,6 @@ class Controller:
                     print('We cannot find an account with the username/password you have provided.')
 
         else:
-            wantsToRegister = input('Would you like to register? Y / N.')
-            if wantsToRegister.upper() == 'Y':
+            wantsToRegister = input('Would you like to register? Yes / No.')
+            if wantsToRegister.upper() == 'YES':
                 self.service.register()
